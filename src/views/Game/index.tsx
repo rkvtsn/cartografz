@@ -40,7 +40,7 @@ const Game = () => {
 
   return (
     <div className="game d-flex">
-      <div className="seasons-display">
+      <div className="seasons-display" style={{width: "75%", minWidth: "100px"}}>
         <Seasons seasons={seasons} />
       </div>
       <div className="orders-display">
@@ -50,12 +50,12 @@ const Game = () => {
           {currentCard && (
             <Card card={currentCard} />
           )}
-          {gameState.isOver ? (<button onClick={handleOnNewGame}>New game</button>) : (<button onClick={handleOnNewCard}>New card</button>)}
+          {gameState.isOver ? (<button onClick={handleOnNewGame}>Новая игра</button>) : (<button onClick={handleOnNewCard}>Новая карта</button>)}
         </div>
         <div>
           <div>Сезон: {SEASONS[gameState.season]}</div>
           <div>Карта №: {gameState.deckCardIndex}</div>
-          <div>Лимит: {gameState.capacity}</div>
+          <div>Время: {gameState.capacity}</div>
         </div>
       </div>
     </div>
