@@ -24,5 +24,6 @@ for (let i = 1; i <= 4; i++) {
     MOCK_TABLE_DECK.push({
         id: "deckAmbush" + i,
         img: `assets/base/deck/ambush_${i}.jpg`,
+        isAmbush: true
     })
 }
