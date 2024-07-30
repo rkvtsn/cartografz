@@ -8,5 +8,6 @@ export const MOCK_DB = {
     'seasons': MOCK_TABLE_SEASONS,
     'goals': MOCK_TABLE_GOALS,
     'deck-cards': MOCK_TABLE_DECK,
+    'games': []
 }
 

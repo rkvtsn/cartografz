@@ -2,7 +2,7 @@ import { IContext } from ".";
 import { MOCK_DB } from "../../assets/mocks/db";
 
 export class MockContext implements IContext {
-    _db: Record<string, unknown>
+    _db: Record<string, unknown[]>
     constructor(db: Record<string, unknown[]>) {
         this._db = db
     }
@@ -14,14 +14,25 @@ export class MockContext implements IContext {
             }
             const data = this._db[url] as T
             if (filters) {
+                // TODO: filters
                 // resolve(data.filter())
             } else {
                 resolve(data)
             }
         })
     };
-    getOne = () => {
-        throw new Error("Not implemented")
+    getOne = <T, F = Record<string, string>>(url: string, filters?: F) => {
+        return new Promise<T>((resolve) => {
+            if (!this._db[url]) {
+                throw new Error("No such table in Database")
+            }
+            if (filters) {
+                //TODO: filters
+                // resolve(data.filter())
+            }
+            const data = this._db[url][0] as T
+            resolve(data)
+        })
     };
     put = () => {
         throw new Error("Not implemented")

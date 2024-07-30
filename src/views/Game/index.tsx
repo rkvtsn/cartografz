@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useFetch } from '../../useFetch'
 import { serviceOrders } from '../../services/serviceOrders'
 import { serviceGoals } from '../../services/serviceGoals'
@@ -8,6 +8,8 @@ import Goals from '../../components/Goals'
 import Seasons from '../../components/Seasons'
 import { serviceSeasons } from '../../services/serviceSeasons'
 import Card from '../../components/Card'
+import { serviceGame } from '../../services/serviceGame'
+import { SEASONS } from '../../domain/SeasonEnum'
 
 
 const Game = () => {
@@ -15,6 +17,26 @@ const Game = () => {
   const { state: goals } = useFetch([], useCallback(() => serviceGoals.getGoals(), []))
   const { state: deckCards } = useFetch([], useCallback(() => serviceDeckCards.getDeck(), []))
   const { state: seasons } = useFetch([], useCallback(() => serviceSeasons.getAll(), []))
+  const { state: gameState, setState: setGameState } = useFetch(null, useCallback(() => serviceGame.getCurrentGame(), []))
+
+  const currentCard = useMemo(() => {
+    if (!gameState) {
+      return null
+    }
+    return deckCards?.[gameState.deckCardIndex]
+  }, [deckCards, gameState])
+
+  const handleOnNewCard = useCallback(() => {
+    setGameState(serviceGame.getNextDeckCard(deckCards, seasons))
+  }, [deckCards, seasons, setGameState])
+
+  const handleOnNewGame = useCallback(() => {
+    serviceGame.clearStore()
+  }, [])
+
+  if (!gameState) {
+    return <div>Game is loading...</div>
+  }
 
   return (
     <div className="game d-flex">
@@ -24,10 +46,16 @@ const Game = () => {
       <div className="orders-display">
         <Orders orders={orders} />
         <Goals goals={goals} />
-        <div className="d-flex" style={{ width: "30%" }}>
-          {deckCards?.[0] && (
-            <Card card={deckCards?.[0]} />
+        <div className="d-flex" style={{ width: "50%" }}>
+          {currentCard && (
+            <Card card={currentCard} />
           )}
+          {gameState.isOver ? (<button onClick={handleOnNewGame}>New game</button>) : (<button onClick={handleOnNewCard}>New card</button>)}
+        </div>
+        <div>
+          <div>Сезон: {SEASONS[gameState.season]}</div>
+          <div>Карта №: {gameState.deckCardIndex}</div>
+          <div>Лимит: {gameState.capacity}</div>
         </div>
       </div>
     </div>
