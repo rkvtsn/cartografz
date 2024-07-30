@@ -5,5 +5,6 @@ import { SeasonEnum } from "./SeasonEnum"
 export interface ISeason extends ICard {
     type: SeasonEnum
     orders: OrderEnum[]
+    capacity: number
 }
 

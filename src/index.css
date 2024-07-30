@@ -94,3 +94,7 @@ button:focus-visible {
 .w-fit {
   width: fit-content;
 }
+
+.flex-direction-column {
+  flex-direction: column;
+}

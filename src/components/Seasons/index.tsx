@@ -3,7 +3,7 @@ import SeasonCard from "../SeasonCard"
 
 const Seasons = ({ seasons }: SeasonsProps) => {
     return (
-        <div className="seasons">
+        <div className="seasons d-flex flex-direction-column">
             {seasons.map(season => <SeasonCard key={season.id} season={season} />)}
         </div>
     )

@@ -12,14 +12,16 @@ class ServiceDeckCards extends Service<IDeckCard> {
      * @param ambushCount how many ambush cards left in deck
      * @returns 
      */
-    initDeck = async (ambushCount: number = 2): Promise<IDeckCard[]> => {
-        const data = await this.getAll()
-        let ambushes = 0
-        return shuffleArray(data, true).filter(({ isAmbush }) => {
-            if (isAmbush) {
-                ambushes++
-            }
-            return !isAmbush || ambushes > ambushCount
+    getDeck = async (ambushCount: number = 2): Promise<IDeckCard[]> => {
+        return this.withStore("init", async () => {
+            const data = await this.getAll()
+            let ambushes = 0
+            return shuffleArray(data, true).filter(({ isAmbush }) => {
+                if (isAmbush) {
+                    ambushes++
+                }
+                return !isAmbush || ambushes > ambushCount
+            })
         })
     }
 }
