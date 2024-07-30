@@ -1,9 +1,14 @@
+import { ISeason } from "../../domain/ISeason"
 import Card from "../Card"
 
-const SeasonCard = () => {
+const SeasonCard = ({ season }: SeasonCardProps) => {
     return (
-        <Card />
+        <Card card={season} />
     )
 }
 
 export default SeasonCard
+
+interface SeasonCardProps {
+    season: ISeason
+}

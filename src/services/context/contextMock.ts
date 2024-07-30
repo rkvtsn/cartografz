@@ -9,6 +9,9 @@ export class MockContext implements IContext {
 
     get = <T, F = Record<string, string>>(url: string, filters?: F) => {
         return new Promise<T>((resolve) => {
+            if (!this._db[url]) {
+                throw new Error("No such table in Database")
+            }
             const data = this._db[url] as T
             if (filters) {
                 // resolve(data.filter())

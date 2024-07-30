@@ -1,0 +1,9 @@
+.orders {
+    display: flex;
+    max-width: 100vw;
+}
+
+.orders > div {
+    width: 30%;
+    height: auto;
+}

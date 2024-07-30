@@ -1,5 +1,6 @@
 import { IOrder } from "../../domain/IOrder"
 import OrderCard from "../OrderCard"
+import "./styles.css"
 
 const Orders = ({ orders }: OrdersProps) => {
     return (
