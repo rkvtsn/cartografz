@@ -6,7 +6,7 @@ function App() {
   const { orders } = useFetchOrders()
   return (
     <>
-      <div>
+      <div className="">
         <Orders orders={orders} />
       </div>
     </>
