@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from "react";
 import { IGame } from "../../../domain/IGame";
 import { ISeason } from "../../../domain/ISeason";
+import { IOrder } from "../../../domain/IOrder";
 import { serviceGame } from "../../../services/serviceGame";
 import Seasons from "../../../components/Seasons";
 import Capacity from "../../../components/Capacity";
 import Orders from "../../../components/Orders";
 import Goals from "../../../components/Goals";
-import { IOrder } from "../../../domain/IOrder";
 import Card from "../../../components/Card";
 import CardClosed from "../../../components/CardClosed";
 import Modal from "../../../components/Modal";
