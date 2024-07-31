@@ -24,11 +24,14 @@ class ServiceGame extends Service<IGame> {
             // TODO: implement different cases
             throw new Error("Not implemented edge cases")
         }
+        console.log({ cards })
         let seasonIndex = seasons.findIndex(season => season.type == game.season)
         if (seasonIndex < seasons.length || game.deckCardIndex < cards.length) {
             game.deckCardIndex += 1
             const card = cards[game.deckCardIndex]
-            game.capacity += card.capacity
+            console.log({ card })
+            console.log({ game })
+            game.capacity += (card.capacity ?? 0)
             const season = seasons[seasonIndex]
             if (season.capacity <= game.capacity) {
                 seasonIndex += 1
@@ -62,6 +65,6 @@ export const serviceGame = new ServiceGame("games", CONTEXT_MOCK)
 const DEFAULT_GAME: IGame = {
     id: null,
     capacity: 0,
-    deckCardIndex: 0,
+    deckCardIndex: -1,
     season: SeasonEnum.SPRING,
 }

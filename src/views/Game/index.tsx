@@ -10,7 +10,8 @@ import { serviceSeasons } from '../../services/serviceSeasons'
 import Card from '../../components/Card'
 import { serviceGame } from '../../services/serviceGame'
 import Capacity from '../../components/Capacity'
-
+import "./styles.css"
+import CardClosed from '../../components/CardClosed'
 
 const Game = () => {
   const { state: orders } = useFetch([], useCallback(() => serviceOrders.initOrders(), []))
@@ -20,7 +21,7 @@ const Game = () => {
   const { state: gameState, setState: setGameState } = useFetch(null, useCallback(() => serviceGame.getCurrentGame(), []))
 
   const currentCard = useMemo(() => {
-    if (!gameState) {
+    if (!gameState || gameState.deckCardIndex == -1) {
       return null
     }
     return deckCards?.[gameState.deckCardIndex]
@@ -41,6 +42,13 @@ const Game = () => {
     return seasons.find(({ type }) => type == gameState.season)
   }, [gameState, seasons])
 
+  const historyDeck = useMemo(() => {
+    if (!gameState || gameState.deckCardIndex == -1) {
+      return []
+    }
+    return deckCards.slice(0, gameState.deckCardIndex).reverse()
+  }, [deckCards, gameState])
+
   if (!gameState) {
     return <div>Game is loading...</div>
   }
@@ -60,12 +68,16 @@ const Game = () => {
             <div>{currentSeason && <Card card={currentSeason} />}</div>
           </div>
 
-          <button disabled={gameState.isOver} onClick={handleOnNewCard}>Новая карта</button>
+          <button disabled={gameState.isOver} onClick={handleOnNewCard}>Исследовать</button>
           <div>
-            {currentCard && (
+            {currentCard ? (
               <Card card={currentCard} />
-            )}
+            ) : <CardClosed />}
           </div>
+        </div>
+
+        <div className="history-deck">
+          {historyDeck.map(card => <Card key={card.id} card={card} />)}
         </div>
       </div>
     </div>

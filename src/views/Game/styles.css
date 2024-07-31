@@ -1,0 +1,15 @@
+.game {
+    background-color: #211312;
+}
+
+.history-deck {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.history-deck > .card {
+    max-width: 140px;
+    margin-top: 10px;
+    margin-right: 5px;
+}

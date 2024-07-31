@@ -9,10 +9,18 @@
 }
 
 .modal {
-    height: 300px;
+    height: fit-content;
     position: relative;
     display: flex;
     margin: auto;
     align-items: center;
     flex-shrink: 1;
+}
+
+.modal-close {
+    font-size: 1.5em;
+    line-height: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
