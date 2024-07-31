@@ -1,87 +1,44 @@
-import { useCallback, useMemo } from 'react'
-import { useFetch } from '../../useFetch'
-import { serviceOrders } from '../../services/serviceOrders'
-import { serviceGoals } from '../../services/serviceGoals'
-import { serviceDeckCards } from '../../services/serviceDeckCards'
-import Orders from '../../components/Orders'
-import Goals from '../../components/Goals'
-import Seasons from '../../components/Seasons'
-import { serviceSeasons } from '../../services/serviceSeasons'
-import Card from '../../components/Card'
-import { serviceGame } from '../../services/serviceGame'
-import Capacity from '../../components/Capacity'
-import "./styles.css"
-import CardClosed from '../../components/CardClosed'
+import { useEffect, useState } from "react";
+import { serviceOrders } from "../../services/serviceOrders";
+import { serviceSeasons } from "../../services/serviceSeasons";
+import { DEFAULT_GAME, serviceGame } from "../../services/serviceGame";
+import GameBoard from "./GameBoard";
+import { DEFAULT_STATE, GameState } from "./state";
+import { IGame } from "../../domain/IGame";
+import "./styles.css";
 
 const Game = () => {
-  const { state: orders } = useFetch([], useCallback(() => serviceOrders.initOrders(), []))
-  const { state: goals } = useFetch([], useCallback(() => serviceGoals.getGoals(), []))
-  const { state: deckCards } = useFetch([], useCallback(() => serviceDeckCards.getDeck(), []))
-  const { state: seasons } = useFetch([], useCallback(() => serviceSeasons.getAll(), []))
-  const { state: gameState, setState: setGameState } = useFetch(null, useCallback(() => serviceGame.getCurrentGame(), []))
+  const [state, setState] = useState<GameState>(DEFAULT_STATE);
+  const [game, setGame] = useState<IGame>(DEFAULT_GAME);
 
-  const currentCard = useMemo(() => {
-    if (!gameState || gameState.deckCardIndex == -1) {
-      return null
-    }
-    return deckCards?.[gameState.deckCardIndex]
-  }, [deckCards, gameState])
+  useEffect(() => {
+    Promise.all([
+      serviceOrders.initOrders(),
+      serviceSeasons.getAll(),
+      serviceGame.getCurrentGame(),
+    ]).then(([initOrders, allSeasons, currentGame]) => {
+      setState({
+        orders: initOrders,
+        seasons: allSeasons,
+      });
+      setGame(currentGame);
+    });
+  }, []);
 
-  const handleOnNewCard = useCallback(() => {
-    setGameState(serviceGame.getNextDeckCard(deckCards, seasons))
-  }, [deckCards, seasons, setGameState])
-
-  const handleOnNewGame = useCallback(async () => {
-    setGameState(await serviceGame.newGame())
-  }, [setGameState])
-
-  const currentSeason = useMemo(() => {
-    if (!gameState) {
-      return null
-    }
-    return seasons.find(({ type }) => type == gameState.season)
-  }, [gameState, seasons])
-
-  const historyDeck = useMemo(() => {
-    if (!gameState || gameState.deckCardIndex == -1) {
-      return []
-    }
-    return deckCards.slice(0, gameState.deckCardIndex).reverse()
-  }, [deckCards, gameState])
-
-  if (!gameState) {
-    return <div>Game is loading...</div>
+  if (!game) {
+    return <div>Game is loading...</div>;
   }
 
   return (
     <div className="game d-flex">
-      <div className="seasons-display" style={{ width: "75%", minWidth: "100px" }}>
-        <Seasons seasons={seasons} />
-        <Capacity season={gameState.season}>{gameState.capacity}</Capacity>
-        <button onClick={handleOnNewGame}>Новая игра</button>
-      </div>
-      <div className="orders-display">
-        <Orders orders={orders} />
-        <Goals goals={goals} />
-        <div className="d-flex">
-          <div>
-            <div>{currentSeason && <Card card={currentSeason} />}</div>
-          </div>
-
-          <button disabled={gameState.isOver} onClick={handleOnNewCard}>Исследовать</button>
-          <div>
-            {currentCard ? (
-              <Card card={currentCard} />
-            ) : <CardClosed />}
-          </div>
-        </div>
-
-        <div className="history-deck">
-          {historyDeck.map(card => <Card key={card.id} card={card} />)}
-        </div>
-      </div>
+      <GameBoard
+        orders={state.orders}
+        game={game}
+        setGame={setGame}
+        seasons={state.seasons}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Game
+export default Game;
