@@ -1,26 +1,34 @@
 .modal-wrapper {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.5);
-    top: 0;
-    left: 0;
-    display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  display: flex;
 }
 
 .modal {
-    height: fit-content;
-    position: relative;
-    display: flex;
-    margin: auto;
-    align-items: center;
-    flex-shrink: 1;
+  height: fit-content;
+  position: relative;
+  display: flex;
+  margin: auto;
+  align-items: center;
+  flex-shrink: 1;
 }
 
 .modal-close {
-    font-size: 1.5em;
-    line-height: 1;
-    position: absolute;
-    top: 0;
-    right: 0;
+  font-size: 1.5em;
+  line-height: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.modal-panel {
+  background-color: #fff;
+  display: flex;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 5%;
 }
