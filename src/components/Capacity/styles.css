@@ -1,0 +1,32 @@
+.capacity {
+    border-radius: 50%;
+    display: flex;
+    margin: auto;
+    width: 1.7em;
+    height: 1.7em;
+    align-items: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1em;
+    border: 5px solid #473c2c
+}
+
+.capacity-season-1 {
+    background-color: #4e6d36;
+}
+
+.capacity-season-2 {
+    background-color: #8b943a;
+}
+
+.capacity-season-3 {
+    background-color: #94582b;
+}
+
+.capacity-season-4 {
+    background-color: #4c6580;
+}
+
+.capacity span {
+    margin: auto;
+}

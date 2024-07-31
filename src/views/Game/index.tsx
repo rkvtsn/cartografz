@@ -9,7 +9,7 @@ import Seasons from '../../components/Seasons'
 import { serviceSeasons } from '../../services/serviceSeasons'
 import Card from '../../components/Card'
 import { serviceGame } from '../../services/serviceGame'
-import { SEASONS } from '../../domain/SeasonEnum'
+import Capacity from '../../components/Capacity'
 
 
 const Game = () => {
@@ -30,9 +30,16 @@ const Game = () => {
     setGameState(serviceGame.getNextDeckCard(deckCards, seasons))
   }, [deckCards, seasons, setGameState])
 
-  const handleOnNewGame = useCallback(() => {
-    serviceGame.clearStore()
-  }, [])
+  const handleOnNewGame = useCallback(async () => {
+    setGameState(await serviceGame.newGame())
+  }, [setGameState])
+
+  const currentSeason = useMemo(() => {
+    if (!gameState) {
+      return null
+    }
+    return seasons.find(({ type }) => type == gameState.season)
+  }, [gameState, seasons])
 
   if (!gameState) {
     return <div>Game is loading...</div>
@@ -40,22 +47,25 @@ const Game = () => {
 
   return (
     <div className="game d-flex">
-      <div className="seasons-display" style={{width: "75%", minWidth: "100px"}}>
+      <div className="seasons-display" style={{ width: "75%", minWidth: "100px" }}>
         <Seasons seasons={seasons} />
+        <Capacity season={gameState.season}>{gameState.capacity}</Capacity>
+        <button onClick={handleOnNewGame}>Новая игра</button>
       </div>
       <div className="orders-display">
         <Orders orders={orders} />
         <Goals goals={goals} />
-        <div className="d-flex" style={{ width: "50%" }}>
-          {currentCard && (
-            <Card card={currentCard} />
-          )}
-          {gameState.isOver ? (<button onClick={handleOnNewGame}>Новая игра</button>) : (<button onClick={handleOnNewCard}>Новая карта</button>)}
-        </div>
-        <div>
-          <div>Сезон: {SEASONS[gameState.season]}</div>
-          <div>Карта №: {gameState.deckCardIndex}</div>
-          <div>Время: {gameState.capacity}</div>
+        <div className="d-flex">
+          <div>
+            <div>{currentSeason && <Card card={currentSeason} />}</div>
+          </div>
+
+          <button disabled={gameState.isOver} onClick={handleOnNewCard}>Новая карта</button>
+          <div>
+            {currentCard && (
+              <Card card={currentCard} />
+            )}
+          </div>
         </div>
       </div>
     </div>

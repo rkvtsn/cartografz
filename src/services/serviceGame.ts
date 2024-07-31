@@ -35,6 +35,7 @@ class ServiceGame extends Service<IGame> {
                 if (seasonIndex == seasons.length) {
                     return this.gameOver(game)
                 }
+                game.capacity = 0
                 game.season = seasons[seasonIndex].type
             }
         } else {
@@ -47,8 +48,12 @@ class ServiceGame extends Service<IGame> {
     gameOver = (game: IGame): IGame => {
         game.isOver = true
         this.saveStore(CURRENT_GAME_TAG, game)
-        console.log("game over")
         return game
+    }
+
+    newGame = () => {
+        this.saveStore(CURRENT_GAME_TAG, "")
+        return this.getCurrentGame()
     }
 }
 
