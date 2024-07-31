@@ -1,15 +1,13 @@
-import { ICard } from "../../domain/ICard"
-import Card from "../Card"
+import { ICard } from "../../domain/ICard";
+import Card from "../Card";
 
 const CLOSED_CARD: ICard = {
-    id: "",
-    img: "src/assets/base/card_closed.jpg"
-}
+  id: "",
+  img: "base/card_closed.jpg",
+};
 
 const CardClosed = () => {
-    return (
-        <Card card={CLOSED_CARD} />
-    )
-}
+  return <Card card={CLOSED_CARD} />;
+};
 
-export default CardClosed
+export default CardClosed;
