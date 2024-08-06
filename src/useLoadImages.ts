@@ -7,9 +7,9 @@ export const useLoadImages = (): UseLoadImages => {
 
   const onLoad = useCallback(async () => {
     setIsLoading(true);
-    const gallery = await serviceGallery.getAll();
+    const gallery = await serviceGallery.getImages();
 
-    const promise = await gallery.map(({ img: src }) => {
+    const promise = gallery.map(({ img: src }) => {
       return new Promise((resolve) => {
         const img = new Image();
 
