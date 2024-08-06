@@ -8,25 +8,27 @@ class ServiceDeckCards extends Service<IDeckCard> {
     super("deck-cards", CONTEXT_MOCK);
   }
 
+  getCards = async (): Promise<IDeckCard[]> => {
+    return this.withStore("cards", async () => await this.getAll());
+  };
+
   getDeck = async (ambushes: number = -1): Promise<IDeckCard[]> => {
-    return this.withStore("init", async () => {
-      const data = await this.getAll();
-      let ambushesWere = 0;
-      return shuffleArray(
-        data.filter((card) => {
-          if (!card.isAmbush || ambushes < 0) {
-            return true;
-          }
-          if (ambushesWere < ambushes) {
-            ambushesWere += 1;
-            return true;
-          } else {
-            return false;
-          }
-        }),
-        true
-      );
-    });
+    const data = await this.getCards();
+    let ambushesWere = 0;
+    return shuffleArray(
+      data.filter((card) => {
+        if (!card.isAmbush || ambushes < 0) {
+          return true;
+        }
+        if (ambushesWere < ambushes) {
+          ambushesWere += 1;
+          return true;
+        } else {
+          return false;
+        }
+      }),
+      true
+    );
   };
 }
 

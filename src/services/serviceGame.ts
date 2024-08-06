@@ -25,7 +25,7 @@ class ServiceGame extends Service<IGame> {
 
   startSeason = async (game: IGame): Promise<IGame> => {
     game.isNewSeason = true;
-    const cards = await serviceDeckCards.getDeck();
+    const cards = await serviceDeckCards.getCards();
 
     const ambushCard = cards.find(
       ({ isAmbush, id }) => isAmbush && !game.ambushes.includes(id)
