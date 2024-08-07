@@ -8,7 +8,7 @@
 
 *,
 body,
-:root {
+#root {
   padding: 0;
   margin: 0;
 }
@@ -41,21 +41,19 @@ button {
   border: none;
   cursor: pointer;
   transition: background-color 0.25s;
-
 }
 
 button:hover {
   background-color: #e0ab6b;
   color: #3d0e0a;
   background-color: #213547;
-  color: #fff
+  color: #fff;
 }
 
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
 
 .d-flex {
   display: flex !important;
