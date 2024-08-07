@@ -33,43 +33,37 @@ export class IndexedDbStorage<S extends Record<string, string>>
       openRequest.onupgradeneeded = async () => {
         // migration possible only in onupgradeneeded context
         this._migrate(openRequest.result, true).then(() => {
-          resolve(openRequest.result);
+          // resolve(openRequest.result);
         });
       };
     });
   };
 
   _migrate = async (db: IDBDatabase, forced: boolean = false) => {
-    console.log("on migrate");
-    console.log("migrate:", this._schema);
     for (const schemaKey of Object.keys(this._schema)) {
-      console.log("has names: ", db.objectStoreNames);
       let hasKey = db.objectStoreNames.contains(this._schema[schemaKey]);
       if (forced && hasKey) {
         hasKey = false;
         db.deleteObjectStore(this._schema[schemaKey]);
       }
       if (!hasKey) {
-        db.createObjectStore(this._schema[schemaKey], { keyPath: "id" });
+        db.createObjectStore(this._schema[schemaKey], {
+          keyPath: "id",
+          autoIncrement: true,
+        });
       }
     }
-    console.log("done migrate");
   };
 
   _deleteDb = () => {
-    console.log("on delete db");
     return new Promise((resolve, reject) => {
-      console.log("delete promise");
       const request = indexedDB.deleteDatabase(this._dbName);
       console.log(request);
       request.onerror = () => {
-        console.log("delete error");
-
         reject(request.error);
       };
-      request.onsuccess = () => {
-        console.log("delete");
 
+      request.onsuccess = () => {
         resolve(request.result);
       };
     });
@@ -79,25 +73,37 @@ export class IndexedDbStorage<S extends Record<string, string>>
     schemaKey: keyof S,
     type: IDBTransactionMode = "readwrite"
   ) => {
-    return async (callback: (table: IDBObjectStore) => void) => {
+    return async (
+      callback: (table: IDBObjectStore, transaction: IDBTransaction) => void
+    ) => {
       const db = await this.getContext();
+
       const transaction = db.transaction(this._schema[schemaKey], type);
       const table = transaction.objectStore(this._schema[schemaKey]);
-
-      return callback(table);
+      return callback(table, transaction);
     };
   };
 
   setItem<C>(tableName: keyof S, item: C): Promise<C> {
     return new Promise((resolve, reject) => {
-      this._withTransaction(tableName)((table) => {
-        const request = table.put(item);
-        request.onerror = () => {
-          reject(request.error);
-        };
-        request.onsuccess = () => {
-          resolve(item);
-        };
+      this._withTransaction(tableName)((table, transaction) => {
+        if (Array.isArray(item)) {
+          item.forEach((it) => table.put(it));
+          transaction.oncomplete = () => {
+            resolve(item);
+          };
+          transaction.onerror = () => {
+            reject(transaction.error);
+          };
+        } else {
+          const request = table.put(item);
+          request.onerror = () => {
+            reject(request.error);
+          };
+          request.onsuccess = () => {
+            resolve(item);
+          };
+        }
       });
     });
   }

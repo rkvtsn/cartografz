@@ -46,7 +46,7 @@ export class Service<T> implements IService<T> {
   }
 
   getActionMapper(action: string) {
-    return [this._url, action].join("#");
+    return action;
   }
 
   withStore = async <R>(action: string, fn: () => Promise<R>): Promise<R> => {
