@@ -50,9 +50,10 @@ export class Service<T> implements IService<T> {
   }
 
   withStore = async <R>(action: string, fn: () => Promise<R>): Promise<R> => {
-    if (!this.getStore(action)) {
+    const resp = await this.getStore(action);
+    if (!resp || (Array.isArray(resp) && resp.length == 0)) {
       const data = await fn();
-      this.saveStore(action, data);
+      await this.saveStore(action, data);
     }
     return this.getStore<R>(action) as R;
   };

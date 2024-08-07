@@ -7,11 +7,10 @@ import Seasons from "../../../components/Seasons";
 import Capacity from "../../../components/Capacity";
 import Orders from "../../../components/Orders";
 import Goals from "../../../components/Goals";
-import CardClosed from "../../../components/CardClosed";
 import Modal from "../../../components/Modal";
 import SeasonNotification from "../../../components/SeasonNotification";
-import CardScaled from "../../../components/CardScaled";
 import HistoryDeck from "../../../components/HistoryDeck";
+import GameControls from "../../../components/GameControls";
 import "./styles.css";
 
 const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
@@ -59,18 +58,13 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
       <div className="orders-display">
         <Orders orders={orders} />
         <Goals goals={game.goals} />
-        <div className="d-flex">
-          <div>
-            <div>{currentSeason && <CardScaled card={currentSeason} />}</div>
-          </div>
 
-          <button disabled={game.isOver} onClick={handleOnNewCard}>
-            Исследовать
-          </button>
-          <div>
-            {currentCard ? <CardScaled card={currentCard} /> : <CardClosed />}
-          </div>
-        </div>
+        <GameControls
+          currentCard={currentCard}
+          currentSeason={currentSeason}
+          isOver={!!game.isOver}
+          onNewCard={handleOnNewCard}
+        />
 
         <HistoryDeck historyDeck={historyDeck} />
       </div>
