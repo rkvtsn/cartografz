@@ -1,41 +1,29 @@
-import { useState } from "react";
+import { useCallback } from "react";
 import { ICard } from "../../domain/ICard";
-import Modal from "../Modal";
-import "./styles.css";
 import { getImageUrl } from "../../utils/getImageUrl";
+import "./styles.css";
 
-const Card = ({ card }: CardProps) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
+const Card = <T extends ICard>({ card, className, onClick }: CardProps<T>) => {
+  const handleOnClick = useCallback(() => {
+    onClick && onClick(card);
+  }, [card, onClick]);
 
-  const handleOnClick = () => {
-    setIsActive((prev) => !prev);
-  };
+  className = className ? "card " + className : "card";
 
   return (
-    <>
-      <div className="card">
-        <img
-          onClick={handleOnClick}
-          className="img"
-          src={getImageUrl(card.img)}
-        />
-      </div>
-      {isActive && (
-        <Modal>
-          <div className="card">
-            <img
-              onClick={handleOnClick}
-              className="img"
-              src={getImageUrl(card.img)}
-            />
-          </div>
-        </Modal>
-      )}
-    </>
+    <div className={className}>
+      <img
+        onClick={handleOnClick}
+        className="img"
+        src={getImageUrl(card.img)}
+      />
+    </div>
   );
 };
 
 export default Card;
-interface CardProps {
-  card: ICard;
+interface CardProps<T extends ICard> {
+  card: T;
+  onClick?: (card: T) => void;
+  className?: string;
 }

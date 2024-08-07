@@ -1,16 +1,12 @@
-import { IGoal } from "../../domain/IGoal"
-import Card from "../Card"
+import { IGoal } from "../../domain/IGoal";
+import Card from "../Card";
 
 const GoalCard = ({ goal }: GoalCardProps) => {
-    return (
-        <div className="goal-card">
-            <Card card={goal} />
-        </div>
-    )
-}
+  return <Card card={goal} />;
+};
 
-export default GoalCard
+export default GoalCard;
 
 interface GoalCardProps {
-    goal: IGoal
+  goal: IGoal;
 }

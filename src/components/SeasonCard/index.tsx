@@ -1,14 +1,12 @@
-import { ISeason } from "../../domain/ISeason"
-import Card from "../Card"
+import { ISeason } from "../../domain/ISeason";
+import Card from "../Card";
 
 const SeasonCard = ({ season }: SeasonCardProps) => {
-    return (
-        <Card card={season} />
-    )
-}
+  return <Card card={season} />;
+};
 
-export default SeasonCard
+export default SeasonCard;
 
 interface SeasonCardProps {
-    season: ISeason
+  season: ISeason;
 }
