@@ -1,13 +1,19 @@
-import { PropsWithChildren } from "react"
-import "./styles.css"
+import { PropsWithChildren } from "react";
+import "./styles.css";
 
+const Header = ({ children, version }: HeaderProps) => {
+  return (
+    <div className="header">
+      {children}
+      <span className="header__version">
+        ver: <strong>{version}</strong>
+      </span>
+    </div>
+  );
+};
 
-const Header = ({children}: PropsWithChildren) => {
-    return (
-        <div className="header">
-            {children}
-        </div>
-    )
+export default Header;
+
+interface HeaderProps extends PropsWithChildren {
+  version: string;
 }
-
-export default Header

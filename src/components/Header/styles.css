@@ -1,11 +1,22 @@
 .header {
-    height: 5vh;
-    position: sticky;
-    top: 0;
-    background: rgb(190, 130, 78);
-    background: linear-gradient(107deg, rgba(190, 130, 78, 1) 0%, rgba(224, 171, 107, 1) 35%, rgba(190, 130, 78, 1) 100%);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-    display: flex;
-    align-items: center;
-    padding-bottom: 4px;
+  height: 5vh;
+  position: sticky;
+  top: 0;
+  background: rgb(190, 130, 78);
+  background: linear-gradient(
+    107deg,
+    rgba(190, 130, 78, 1) 0%,
+    rgba(224, 171, 107, 1) 35%,
+    rgba(190, 130, 78, 1) 100%
+  );
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  display: flex;
+  align-items: center;
+  padding-bottom: 4px;
+}
+
+.header__version {
+  margin-left: auto;
+  margin-right: 10px;
 }

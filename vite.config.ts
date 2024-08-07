@@ -1,11 +1,28 @@
-import { defineConfig } from "vite";
+import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { VitePWA } from "vite-plugin-pwa";
-import tsconfigPaths from "vite-tsconfig-paths";
+
+const viteVersionPlugin = (): Plugin => {
+  return {
+    name: "vite-version-plugin",
+    config(_, env) {
+      if (env) {
+        return {
+          define: {
+            "import.meta.env.APP_VERSION": JSON.stringify(
+              process.env.npm_package_version
+            ),
+          },
+        };
+      }
+    },
+  };
+};
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    viteVersionPlugin(),
     VitePWA({
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
       manifest: {
@@ -28,6 +45,5 @@ export default defineConfig({
       },
     }),
     react(),
-    tsconfigPaths(),
   ],
 });
