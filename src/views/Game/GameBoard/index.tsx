@@ -11,6 +11,8 @@ import CardClosed from "../../../components/CardClosed";
 import Modal from "../../../components/Modal";
 import SeasonNotification from "../../../components/SeasonNotification";
 import CardScaled from "../../../components/CardScaled";
+import HistoryDeck from "../../../components/HistoryDeck";
+import "./styles.css";
 
 const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
   const currentCard = useMemo(() => {
@@ -48,14 +50,10 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
 
   return (
     <>
-      <div
-        className="seasons-display"
-        style={{ width: "30%", minWidth: "100px" }}
-      >
+      <div className="seasons-display">
         <Seasons seasons={seasons} />
         <Capacity season={game.season}>{game.capacity}</Capacity>
         <button onClick={handleOnNewGame}>Новая игра</button>
-
         <button onClick={handleReset}>RESET</button>
       </div>
       <div className="orders-display">
@@ -74,11 +72,7 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
           </div>
         </div>
 
-        <div className="history-deck">
-          {historyDeck.map((card) => (
-            <CardScaled key={card.id} card={card} />
-          ))}
-        </div>
+        <HistoryDeck historyDeck={historyDeck} />
       </div>
       {game.isNewSeason && (
         <Modal onClose={onCloseNewSeason}>

@@ -1,0 +1,10 @@
+.seasons-display {
+  width: 30%;
+  min-width: 100px;
+  margin: 10px;
+}
+
+.orders-display {
+  max-width: 80%;
+  gap: 20px;
+}

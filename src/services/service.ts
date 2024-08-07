@@ -1,54 +1,63 @@
-import { loadLocalStorage } from "../utils/loadLocalStorage"
-import { saveLocalStorage } from "../utils/saveLocalStorage"
-import { IContext } from "./context"
+import { IStorage } from "../storages/IStorage";
+import { LocalStorage } from "../storages/LocalStorage";
+import { IContext } from "./context";
 
 export interface IService<T> {
-    getAll: <F = Record<string, string>>(params?: F) => Promise<T[]>
-    getOne: <F = Record<string, string>>(params?: F) => Promise<T>
-    /**
-     * TODO:put,post,delete
-     */
+  getAll: <F = Record<string, string>>(params?: F) => Promise<T[]>;
+  getOne: <F = Record<string, string>>(params?: F) => Promise<T>;
+  saveStore: <R>(action: string, data: R) => Promise<R>;
+  getStore: <R>(action: string) => Promise<R> | null;
+  /**
+   * TODO:put,post,delete
+   */
 }
 
 export class Service<T> implements IService<T> {
-    _url: string = ""
-    _ctx: IContext
-    _actions: Set<string> = new Set()
+  _url: string = "";
+  _ctx: IContext;
+  _actions: Set<string> = new Set();
+  _storage: IStorage;
 
-    constructor(url: string, ctx: IContext) {
-        this._ctx = ctx
-        this._url = url
-    }
-    getAll<F = Record<string, string>,>(params?: F) {
-        return this._ctx.get<T[], F>(this._url, params)
-    }
-    getOne<F = Record<string, string>>(params?: F) {
-        return this._ctx.getOne<T, F>(this._url, params)
-    }
+  constructor(
+    url: string,
+    ctx: IContext,
+    storage: IStorage = new LocalStorage()
+  ) {
+    this._ctx = ctx;
+    this._url = url;
+    this._storage = storage;
+  }
 
-    saveStore<R>(action: string, data: R) {
-        const key = this.getActionMapper(action)
-        this._actions.add(key)
-        saveLocalStorage(key, data)
-    }
+  getAll<F = Record<string, string>>(params?: F) {
+    return this._ctx.get<T[], F>(this._url, params);
+  }
+  getOne<F = Record<string, string>>(params?: F) {
+    return this._ctx.getOne<T, F>(this._url, params);
+  }
 
-    getStore<R>(action: string): R | null {
-        return loadLocalStorage<R>(this.getActionMapper(action))
-    }
+  saveStore<R>(action: string, data: R) {
+    const key = this.getActionMapper(action);
+    this._actions.add(key);
+    return this._storage.setItem(key, data);
+  }
 
-    getActionMapper(action: string) {
-        return [this._url, action].join("#")
-    }
+  getStore<R>(action: string) {
+    return this._storage.getItem<R>(this.getActionMapper(action));
+  }
 
-    withStore = async<R>(action: string, fn: () => Promise<R>): Promise<R> => {
-        if (!this.getStore(action)) {
-            const data = await fn()
-            this.saveStore(action, data)
-        }
-        return this.getStore<R>(action) as R
-    }
+  getActionMapper(action: string) {
+    return [this._url, action].join("#");
+  }
 
-    clearStore = () => {
-        localStorage.clear()
+  withStore = async <R>(action: string, fn: () => Promise<R>): Promise<R> => {
+    if (!this.getStore(action)) {
+      const data = await fn();
+      this.saveStore(action, data);
     }
+    return this.getStore<R>(action) as R;
+  };
+
+  clearStore = () => {
+    localStorage.clear();
+  };
 }
