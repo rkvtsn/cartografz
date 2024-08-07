@@ -1,13 +1,13 @@
 import { ISeason } from "../../domain/ISeason";
 import { SEASONS } from "../../domain/SeasonEnum";
-import "./styles.css";
+import Modal from "../Modal";
 
 const SeasonNotification = ({ currentSeason }: SeasonNotificationProps) => {
   return (
-    <div className="season-notification">
+    <Modal.Panel>
       <h1>Новый сезон "{SEASONS[currentSeason.type]}"</h1>
       <h2>Подсчитайте полученные очки за прошлый сезон</h2>
-    </div>
+    </Modal.Panel>
   );
 };
 

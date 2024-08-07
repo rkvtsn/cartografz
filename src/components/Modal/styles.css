@@ -8,6 +8,18 @@
   display: flex;
 }
 
+@keyframes dropAnimation {
+  0% {
+    top: -50px;
+  }
+  45% {
+    top: 10px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+
 .modal {
   height: fit-content;
   position: relative;
@@ -15,6 +27,8 @@
   margin: auto;
   align-items: center;
   flex-shrink: 1;
+  transition: top 2s;
+  animation: dropAnimation 1s;
 }
 
 .modal-close {
@@ -26,9 +40,10 @@
 }
 
 .modal-panel {
-  background-color: #fff;
-  display: flex;
   padding: 20px;
-  border-radius: 20px;
   margin-top: 5%;
+  background-color: #e0ab6b;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+  padding: 30px;
+  border-radius: 30px;
 }

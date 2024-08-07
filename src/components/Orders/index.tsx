@@ -1,18 +1,19 @@
-import { IOrder } from "../../domain/IOrder"
-import OrderCard from "../OrderCard"
-import "./styles.css"
+import { IOrder } from "../../domain/IOrder";
+import OrderCard from "../OrderCard";
+import "./styles.css";
 
 const Orders = ({ orders }: OrdersProps) => {
-    
-    return (
-        <div className="orders">
-            {orders.map((order) => (<OrderCard key={order.id} order={order} />))}
-        </div>
-    )
-}
+  return (
+    <div className="orders m-auto">
+      {orders.map((order) => (
+        <OrderCard key={order.id} order={order} />
+      ))}
+    </div>
+  );
+};
 
-export default Orders
+export default Orders;
 
 interface OrdersProps {
-    orders: IOrder[]
+  orders: IOrder[];
 }

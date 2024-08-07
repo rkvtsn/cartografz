@@ -1,8 +1,8 @@
 import { ISeason } from "../../domain/ISeason";
-import Card from "../Card";
+import CardScaled from "../CardScaled";
 
 const SeasonCard = ({ season }: SeasonCardProps) => {
-  return <Card card={season} />;
+  return <CardScaled card={season} />;
 };
 
 export default SeasonCard;

@@ -41,6 +41,8 @@ button {
   border: none;
   cursor: pointer;
   transition: background-color 0.25s;
+  width: fit-content;
+  height: fit-content;
 }
 
 button:hover {
@@ -73,4 +75,8 @@ button:focus-visible {
 
 .flex-direction-column {
   flex-direction: column;
+}
+
+.m-auto {
+  margin: auto;
 }

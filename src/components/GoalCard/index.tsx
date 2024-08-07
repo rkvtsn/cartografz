@@ -1,8 +1,8 @@
 import { IGoal } from "../../domain/IGoal";
-import Card from "../Card";
+import CardScaled from "../CardScaled";
 
 const GoalCard = ({ goal }: GoalCardProps) => {
-  return <Card card={goal} />;
+  return <CardScaled card={goal} />;
 };
 
 export default GoalCard;

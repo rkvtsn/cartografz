@@ -7,10 +7,10 @@ import Seasons from "../../../components/Seasons";
 import Capacity from "../../../components/Capacity";
 import Orders from "../../../components/Orders";
 import Goals from "../../../components/Goals";
-import Card from "../../../components/Card";
 import CardClosed from "../../../components/CardClosed";
 import Modal from "../../../components/Modal";
 import SeasonNotification from "../../../components/SeasonNotification";
+import CardScaled from "../../../components/CardScaled";
 
 const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
   const currentCard = useMemo(() => {
@@ -63,26 +63,34 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
         <Goals goals={game.goals} />
         <div className="d-flex">
           <div>
-            <div>{currentSeason && <Card card={currentSeason} />}</div>
+            <div>{currentSeason && <CardScaled card={currentSeason} />}</div>
           </div>
 
           <button disabled={game.isOver} onClick={handleOnNewCard}>
             Исследовать
           </button>
           <div>
-            {currentCard ? <Card card={currentCard} /> : <CardClosed />}
+            {currentCard ? <CardScaled card={currentCard} /> : <CardClosed />}
           </div>
         </div>
 
         <div className="history-deck">
           {historyDeck.map((card) => (
-            <Card key={card.id} card={card} />
+            <CardScaled key={card.id} card={card} />
           ))}
         </div>
       </div>
       {game.isNewSeason && (
         <Modal onClose={onCloseNewSeason}>
           <SeasonNotification currentSeason={currentSeason} />
+        </Modal>
+      )}
+      {game.isOver && (
+        <Modal onClose={handleOnNewGame}>
+          <Modal.Panel>
+            <h1>Игра окончена.</h1>
+            <h2>Закройте окно для начала новой игры</h2>
+          </Modal.Panel>
         </Modal>
       )}
     </>

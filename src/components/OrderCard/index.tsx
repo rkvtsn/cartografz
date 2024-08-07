@@ -1,8 +1,8 @@
 import { IOrder } from "../../domain/IOrder";
-import Card from "../Card";
+import CardScaled from "../CardScaled";
 
 const OrderCard = ({ order }: OrderCardProps) => {
-  return <Card card={order} />;
+  return <CardScaled card={order} />;
 };
 
 export default OrderCard;
