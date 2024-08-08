@@ -8,7 +8,7 @@ const Modal = ({ children, onClose }: ModalProps) => {
       <div className="modal">
         {onClose && (
           <button onClick={onClose} className="modal-close">
-            x
+            X
           </button>
         )}
         {children}

@@ -8,7 +8,9 @@ export interface IGame {
   deckCardIndex: number;
   capacity: number;
   isOver?: boolean;
-  ambushes: string[];
+  // played ambushes
+  playedAmbushes: string[];
+  ambushes: IDeckCard[];
   historyCards: IDeckCard[];
   deck: IDeckCard[];
   isNewSeason?: boolean;

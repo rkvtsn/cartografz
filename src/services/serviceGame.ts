@@ -17,29 +17,47 @@ class ServiceGame extends Service<IGame> {
       if (game != null) {
         return game;
       }
-      const deck = await serviceDeckCards.getDeck(1);
+      const ambushes = await serviceDeckCards.getAmbushes();
+      const deck = this._addAmbushToDeck(
+        await serviceDeckCards.getInvestigations(),
+        ambushes
+      );
+
       const goals = await serviceGoals.getGoals();
-      return { ...DEFAULT_GAME, deck, goals };
+
+      return { ...DEFAULT_GAME, deck, goals, ambushes };
     });
+  };
+
+  _addAmbushToDeck = (
+    deck: IDeckCard[],
+    ambushes: IDeckCard[],
+    playedAmbushes: string[] = []
+  ): IDeckCard[] => {
+    const newDeck = deck.filter(({ id }) => !playedAmbushes.includes(id));
+
+    if (ambushes.length) {
+      const newAmbush = ambushes.pop();
+      if (newAmbush) {
+        newDeck.push(newAmbush);
+      }
+    }
+    return shuffleArray(newDeck, true);
   };
 
   startSeason = async (game: IGame): Promise<IGame> => {
     game.isNewSeason = true;
-    const cards = await serviceDeckCards.getCards();
-
-    const ambushCard = cards.find(
-      ({ isAmbush, id }) => isAmbush && !game.ambushes.includes(id)
+    game.deck = this._addAmbushToDeck(
+      game.deck,
+      game.ambushes,
+      game.playedAmbushes
     );
-    game.deck = game.deck.filter(({ id }) => !game.ambushes.includes(id));
 
-    if (ambushCard) {
-      game.deck.push(ambushCard);
-    }
-    game.deck = shuffleArray(game.deck);
     game.historyCards = [];
     game.capacity = 0;
     game.season += 1;
     game.deckCardIndex = -1;
+
     return await this.saveGame(game);
   };
 
@@ -60,7 +78,7 @@ class ServiceGame extends Service<IGame> {
       const card = cards[game.deckCardIndex];
       game.historyCards.push(card);
       if (card.isAmbush) {
-        game.ambushes.push(card.id);
+        game.playedAmbushes.push(card.id);
       }
       game.capacity += card.capacity ?? 0;
       const season = seasons[seasonIndex];
@@ -73,24 +91,23 @@ class ServiceGame extends Service<IGame> {
     } else {
       return this.gameOver(game);
     }
-    this.saveStore(CURRENT_GAME_TAG, game);
-    return game;
+    return this.saveStore(CURRENT_GAME_TAG, game);
   };
 
-  gameOver = (game: IGame): IGame => {
+  gameOver = async (game: IGame): Promise<IGame> => {
     game.isOver = true;
-    this.saveStore(CURRENT_GAME_TAG, game);
+    await this.saveStore(CURRENT_GAME_TAG, game);
     return game;
   };
 
-  newGame = () => {
-    this.saveStore(CURRENT_GAME_TAG, "");
+  newGame = async (): Promise<IGame> => {
+    await this.saveStore(CURRENT_GAME_TAG, "");
     return this.getCurrentGame();
   };
 
   saveGame = async (game: IGame): Promise<IGame> => {
-    this.saveStore(CURRENT_GAME_TAG, game);
-    return await this.getCurrentGame();
+    await this.saveStore(CURRENT_GAME_TAG, game);
+    return this.getCurrentGame();
   };
 }
 
@@ -101,6 +118,7 @@ export const DEFAULT_GAME: IGame = {
   capacity: 0,
   deckCardIndex: -1,
   season: SeasonEnum.SPRING,
+  playedAmbushes: [],
   ambushes: [],
   historyCards: [],
   deck: [],
