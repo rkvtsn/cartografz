@@ -73,14 +73,8 @@ class ServiceGame extends Service<IGame> {
     const seasonIndex = seasons.findIndex(
       (season) => season.type == game.season
     );
+
     if (seasonIndex < seasons.length || game.deckCardIndex < cards.length) {
-      game.deckCardIndex += 1;
-      const card = cards[game.deckCardIndex];
-      game.historyCards.push(card);
-      if (card.isAmbush) {
-        game.playedAmbushes.push(card.id);
-      }
-      game.capacity += card.capacity ?? 0;
       const season = seasons[seasonIndex];
       if (season.capacity <= game.capacity) {
         if (seasonIndex + 1 == seasons.length) {
@@ -88,6 +82,13 @@ class ServiceGame extends Service<IGame> {
         }
         return this.startSeason(game);
       }
+      game.deckCardIndex += 1;
+      const card = cards[game.deckCardIndex];
+      game.historyCards.push(card);
+      if (card.isAmbush) {
+        game.playedAmbushes.push(card.id);
+      }
+      game.capacity += card.capacity ?? 0;
     } else {
       return this.gameOver(game);
     }
