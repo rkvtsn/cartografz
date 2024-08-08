@@ -1,11 +1,11 @@
 import Header from "./components/Header";
 import Modal from "./components/Modal";
 import Game from "./views/Game";
-import { useLoadImages } from "./useLoadImages";
+import { usePreLoadImages } from "./usePreLoadImages";
 import Maps from "./components/Maps";
 
 function App() {
-  const { isLoading, hide } = useLoadImages();
+  const { isLoading, hide } = usePreLoadImages();
 
   return (
     <div className="app">

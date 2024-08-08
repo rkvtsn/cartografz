@@ -1,7 +1,7 @@
 import { IStorage } from "./IStorage";
 
 export class IndexedDbStorage<S extends Record<string, string>>
-  implements IStorage<S>
+  implements IStorage<S, IDBObjectStore, IDBRequest>
 {
   _dbName: string;
   _schema: S;
@@ -108,15 +108,13 @@ export class IndexedDbStorage<S extends Record<string, string>>
     });
   }
 
-  /**
-   *
-   * @param {keyof S} tableName
-   * @returns {C[]} always Array
-   */
-  getItem<C>(tableName: keyof S): Promise<C> {
+  getItem<C>(
+    tableName: keyof S,
+    filter?: (table: IDBObjectStore) => IDBRequest<C>
+  ): Promise<C> {
     return new Promise((resolve, reject) => {
       this._withTransaction(tableName)((table) => {
-        const request = table.getAll();
+        const request = filter !== undefined ? filter(table) : table.getAll();
         request.onerror = () => {
           reject(request.error);
         };

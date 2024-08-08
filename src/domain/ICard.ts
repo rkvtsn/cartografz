@@ -1,4 +1,5 @@
-export interface ICard {
-    id: string
-    img: string
+import { IDomain } from "./IDomain";
+
+export interface ICard extends IDomain {
+  img: string;
 }

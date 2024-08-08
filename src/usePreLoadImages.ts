@@ -1,26 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { serviceGallery } from "./services/serviceGallery";
-import { getImageUrl } from "./utils/getImageUrl";
 
-export const useLoadImages = (): UseLoadImages => {
+export const usePreLoadImages = (): UseLoadImages => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onLoad = useCallback(async () => {
     setIsLoading(true);
-    const gallery = await serviceGallery.getImages();
-
-    const promise = gallery.map(({ img: src }) => {
-      return new Promise((resolve) => {
-        const img = new Image();
-
-        img.src = getImageUrl(src);
-        img.onload = () => {
-          resolve(src);
-        };
-      });
-    });
-
-    await Promise.all(promise);
+    console.log(await serviceGallery.getImages());
     setIsLoading(false);
   }, []);
 

@@ -41,12 +41,12 @@ afterAll(() => {
 
 describe("serviceDeckCards", () => {
   it("getDeck should return cards", async () => {
-    const deck = await serviceDeckCards.getDeck();
-    expect(deck.length).toBe(4);
+    const deck = await serviceDeckCards.getInvestigations();
+    expect(deck.length).toBe(2);
   });
   it("getDeck should return cards with only one Ambush", async () => {
-    const deck = await serviceDeckCards.getDeck(1);
-    expect(deck.length).toBe(3);
-    expect(deck.filter(({ isAmbush }) => isAmbush).length).toBe(1);
+    const deck = await serviceDeckCards.getAmbushes();
+    expect(deck.length).toBe(2);
+    expect(deck.filter(({ isAmbush }) => isAmbush).length).toBe(2);
   });
 });
