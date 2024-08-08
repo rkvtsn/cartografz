@@ -16,16 +16,15 @@ const GameControls = ({
   }
   return (
     <div className="game-controls">
-      <div>
-        <div>{<CardScaled card={currentSeason} />}</div>
-      </div>
-
+      {currentCard ? (
+        <CardScaled card={currentCard} />
+      ) : (
+        <CardClosed className="card-control" />
+      )}
       <button disabled={isOver} onClick={onNewCard}>
         Исследовать
       </button>
-      <div>
-        {currentCard ? <CardScaled card={currentCard} /> : <CardClosed />}
-      </div>
+      {<CardScaled card={currentSeason} />}
     </div>
   );
 };

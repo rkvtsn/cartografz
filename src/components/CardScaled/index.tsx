@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ICard } from "../../domain/ICard";
 import Modal from "../Modal";
 import Card from "../Card";
+import "./styles.css";
 
 const CardScaled = ({ card, className }: CardScaledProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -10,14 +11,18 @@ const CardScaled = ({ card, className }: CardScaledProps) => {
     setIsActive((prev) => !prev);
   };
 
-  const cardComponent = (
-    <Card card={card} onClick={handleOnClick} className={className} />
-  );
-
   return (
     <>
-      {cardComponent}
-      {isActive && <Modal>{cardComponent}</Modal>}
+      <Card
+        card={card}
+        onClick={handleOnClick}
+        className={"card-scaled " + className}
+      />
+      {isActive && (
+        <Modal>
+          <Card card={card} onClick={handleOnClick} className={className} />
+        </Modal>
+      )}
     </>
   );
 };

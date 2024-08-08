@@ -6,8 +6,12 @@ const CLOSED_CARD: ICard = {
   img: "base/card_closed.jpg",
 };
 
-const CardClosed = () => {
-  return <Card card={CLOSED_CARD} />;
+const CardClosed = ({ className }: CardClosedProps) => {
+  return <Card card={CLOSED_CARD} className={className} />;
 };
 
 export default CardClosed;
+
+interface CardClosedProps {
+  className: string;
+}

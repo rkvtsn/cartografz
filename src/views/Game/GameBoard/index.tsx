@@ -49,12 +49,6 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
 
   return (
     <>
-      <div className="seasons-display">
-        <Seasons seasons={seasons} />
-        <Capacity season={game.season}>{game.capacity}</Capacity>
-        <button onClick={handleOnNewGame}>Новая игра</button>
-        <button onClick={handleReset}>RESET</button>
-      </div>
       <div className="orders-display">
         <Orders orders={orders} />
         <Goals goals={game.goals} />
@@ -67,6 +61,12 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
         />
 
         <HistoryDeck historyDeck={historyDeck} />
+      </div>
+      <div className="seasons-display">
+        <Seasons seasons={seasons} />
+        <Capacity season={game.season}>{game.capacity}</Capacity>
+        <button onClick={handleOnNewGame}>Новая игра</button>
+        <button onClick={handleReset}>RESET</button>
       </div>
       {game.isNewSeason && (
         <Modal onClose={onCloseNewSeason}>

@@ -2,10 +2,9 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .history-deck > .card {
   max-width: 23%;
-  margin: auto;
-  margin-top: 10px;
 }

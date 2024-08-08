@@ -6,7 +6,7 @@ const Header = ({ children, version }: HeaderProps) => {
     <div className="header">
       {children}
       <span className="header__version">
-        ver: <strong>{version}</strong>
+        <strong>{version}</strong>
       </span>
     </div>
   );
