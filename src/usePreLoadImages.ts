@@ -6,7 +6,7 @@ export const usePreLoadImages = (): UseLoadImages => {
 
   const onLoad = useCallback(async () => {
     setIsLoading(true);
-    console.log(await serviceGallery.getImages());
+    await serviceGallery.getImages();
     setIsLoading(false);
   }, []);
 

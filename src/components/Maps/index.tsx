@@ -1,22 +1,33 @@
-import { useState } from "react";
-import { CardMapNameEnum } from "../../domain/CardMapNameType";
+import { useEffect, useState } from "react";
 import Modal from "../Modal";
-import CardMap from "../CardMap";
+import { ICardMap } from "../../domain/ICardMap";
+import Card from "../Card";
+import { serviceMaps } from "../../services/serviceMaps";
 
 const Maps = () => {
-  const [mapName, setMapName] = useState<CardMapNameEnum>(CardMapNameEnum.NONE);
+  const [mapCard, setMapCard] = useState<ICardMap | null>(null);
+  const [mapCards, setMapCards] = useState<ICardMap[]>([]);
 
-  const showMap = (name: CardMapNameEnum) => () => {
-    setMapName(name);
+  const showMap = (card: ICardMap | null) => () => {
+    setMapCard(card);
   };
+
+  useEffect(() => {
+    serviceMaps.getMaps().then((maps) => {
+      setMapCards(maps);
+    });
+  }, []);
 
   return (
     <>
-      <button onClick={showMap(CardMapNameEnum.A)}>Карта A</button>
-      <button onClick={showMap(CardMapNameEnum.B)}>Карта B</button>
-      {mapName !== CardMapNameEnum.NONE && (
-        <Modal onClose={showMap(CardMapNameEnum.NONE)}>
-          <CardMap name={mapName} />
+      {mapCards.map((card) => (
+        <button key={card.id} onClick={showMap(card)}>
+          {card.name}
+        </button>
+      ))}
+      {mapCard && (
+        <Modal onClose={showMap(null)}>
+          <Card card={mapCard} />
         </Modal>
       )}
     </>

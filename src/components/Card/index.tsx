@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { ICard } from "../../domain/ICard";
-import { getImageUrl } from "../../utils/getImageUrl";
+import { useImageSrc } from "../../hooks/useImageSrc";
 import "./styles.css";
 
 const Card = <T extends ICard>({ card, className, onClick }: CardProps<T>) => {
@@ -10,13 +10,11 @@ const Card = <T extends ICard>({ card, className, onClick }: CardProps<T>) => {
 
   className = className ? "card " + className : "card";
 
+  const imageSrc = useImageSrc(card);
+
   return (
     <div className={className}>
-      <img
-        onClick={handleOnClick}
-        className="img"
-        src={getImageUrl(card.img)}
-      />
+      <img onClick={handleOnClick} className="img" src={imageSrc} />
     </div>
   );
 };

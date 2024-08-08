@@ -1,5 +1,17 @@
-import { ICard } from "../domain/ICard";
+import { ICardMap } from "../domain/ICardMap";
 import { CONTEXT_MOCK } from "./context/contextMock";
 import { Service } from "./service";
 
-export const serviceMaps = new Service<ICard>("maps", CONTEXT_MOCK);
+class ServiceMaps extends Service<ICardMap> {
+  constructor() {
+    super("maps", CONTEXT_MOCK);
+  }
+
+  getMaps = () => {
+    return this.withStore("maps", () => {
+      return this.getAll();
+    });
+  };
+}
+
+export const serviceMaps = new ServiceMaps();

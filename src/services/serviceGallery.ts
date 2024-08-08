@@ -1,3 +1,4 @@
+import { ICard } from "../domain/ICard";
 import { ICardGallery } from "../domain/ICardGallery";
 import { IndexedDbStorage } from "../storages/IndexedDbStorage";
 import { getImageUrl } from "../utils/getImageUrl";
@@ -31,10 +32,17 @@ class ServiceGallery extends Service<ICardGallery> {
    * @TODO resolve generic types mess
    * get cached image from IndexedDb
    */
-  getImage = async (id: string) => {
-    return await this._storage.getItem<ICardGallery>("images", (context) => {
-      return (context as IDBObjectStore).get(id);
-    });
+  getImageSrc = async (card: ICard): Promise<string> => {
+    const image = await this._storage.getItem<ICardGallery>(
+      "images",
+      (context) => {
+        return (context as IDBObjectStore).get(card.id);
+      }
+    );
+    if (image) {
+      return URL.createObjectURL(image.image);
+    }
+    return getImageUrl(card.img);
   };
 }
 
