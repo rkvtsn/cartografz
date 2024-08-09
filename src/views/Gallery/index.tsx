@@ -1,6 +1,6 @@
 import Card from "../../components/Card";
+import { useFetch } from "../../hooks/useFetch";
 import { serviceGallery } from "../../services/serviceGallery";
-import { useFetch } from "../../useFetch";
 
 const Gallery = () => {
   const { state } = useFetch([], () => serviceGallery.getAll());

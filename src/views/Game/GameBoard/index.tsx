@@ -84,6 +84,6 @@ export default GameBoard;
 interface GameBoardProps {
   seasons: ISeason[];
   game: IGame;
-  setGame: React.Dispatch<React.SetStateAction<IGame>>;
+  setGame: React.Dispatch<React.SetStateAction<IGame | null>>;
   orders: IOrder[];
 }
