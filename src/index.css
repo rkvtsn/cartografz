@@ -53,6 +53,9 @@ button:hover {
   background-color: #213547;
   color: #fff;
 }
+button:hover svg.icon-svg path {
+  stroke: #fff;
+}
 
 button:focus,
 button:focus-visible {

@@ -1,27 +1,36 @@
+import { useEffect, useMemo, useState } from "react";
 import Header from "./components/Header";
-import Modal from "./components/Modal";
 import Game from "./views/Game";
-import { usePreLoadImages } from "./usePreLoadImages";
 import Maps from "./components/Maps";
+import { GameContext } from "./contexts/GameContext";
+import { IGame } from "./domain/IGame";
+import { serviceGame } from "./services/serviceGame";
+import GameControl from "./components/GameControl";
+import ModalLoading from "./components/ModalLoading";
 
 function App() {
-  const { isLoading, hide } = usePreLoadImages();
+  const [game, setGame] = useState<IGame | null>(null);
+  const context = useMemo(() => ({ game, setGame }), [game]);
+
+  useEffect(() => {
+    serviceGame.getCurrentGame().then((game) => {
+      setGame(game);
+    });
+  }, []);
 
   return (
-    <div className="app">
-      <Header version={import.meta.env.APP_VERSION}>
-        <Maps />
-      </Header>
-      <Game />
-
-      {isLoading && (
-        <Modal onClose={hide}>
-          <Modal.Panel>
-            <h1>Выполнятеся загрузка</h1>
-          </Modal.Panel>
-        </Modal>
-      )}
-    </div>
+    <>
+      <ModalLoading />
+      <GameContext.Provider value={context}>
+        <div className="app">
+          <Header version={import.meta.env.APP_VERSION}>
+            <Maps />
+            <GameControl />
+          </Header>
+          <Game />
+        </div>
+      </GameContext.Provider>
+    </>
   );
 }
 

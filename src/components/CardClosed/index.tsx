@@ -2,7 +2,7 @@ import { ICard } from "../../domain/ICard";
 import Card from "../Card";
 
 const CLOSED_CARD: ICard = {
-  id: "",
+  id: "closed",
   img: "base/card_closed.jpg",
 };
 

@@ -5,33 +5,35 @@ import { ICard } from "../../domain/ICard";
 
 import "./styles.css";
 
-const GameControls = ({
+const GameDisplay = ({
   currentSeason,
   onNewCard,
   currentCard,
   isOver,
-}: GameControlsProps) => {
+}: GameDisplayProps) => {
   if (!currentSeason) {
     return null;
   }
   return (
-    <div className="game-controls">
-      {currentCard ? (
-        <CardScaled card={currentCard} />
-      ) : (
-        <CardClosed className="card-control" />
-      )}
+    <>
+      <div className="game-display">
+        {currentCard ? (
+          <CardScaled card={currentCard} />
+        ) : (
+          <CardClosed className="card-control" />
+        )}
+        {<CardScaled card={currentSeason} />}
+      </div>
       <button disabled={isOver} onClick={onNewCard}>
         Исследовать
       </button>
-      {<CardScaled card={currentSeason} />}
-    </div>
+    </>
   );
 };
 
-export default GameControls;
+export default GameDisplay;
 
-interface GameControlsProps {
+interface GameDisplayProps {
   currentSeason: ISeason | null;
   currentCard: ICard | null;
   isOver: boolean;

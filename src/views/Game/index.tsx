@@ -1,29 +1,25 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { serviceOrders } from "../../services/serviceOrders";
 import { serviceSeasons } from "../../services/serviceSeasons";
-import { DEFAULT_GAME, serviceGame } from "../../services/serviceGame";
 import GameBoard from "./GameBoard";
 import { DEFAULT_STATE, GameState } from "./state";
-import { IGame } from "../../domain/IGame";
+import { GameContext } from "../../contexts/GameContext";
 import "./styles.css";
 
 const Game = () => {
   const [state, setState] = useState<GameState>(DEFAULT_STATE);
-  const [game, setGame] = useState<IGame>(DEFAULT_GAME);
+  const { game, setGame } = useContext(GameContext);
 
   useEffect(() => {
-    Promise.all([
-      serviceOrders.initOrders(),
-      serviceSeasons.getAll(),
-      serviceGame.getCurrentGame(),
-    ]).then(([initOrders, allSeasons, currentGame]) => {
-      setState({
-        orders: initOrders,
-        seasons: allSeasons,
-      });
-      setGame(currentGame);
-    });
-  }, []);
+    Promise.all([serviceOrders.initOrders(), serviceSeasons.getAll()]).then(
+      ([initOrders, allSeasons]) => {
+        setState({
+          orders: initOrders,
+          seasons: allSeasons,
+        });
+      }
+    );
+  }, [setGame]);
 
   if (!game) {
     return <div>Game is loading...</div>;

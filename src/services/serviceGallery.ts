@@ -6,19 +6,19 @@ import { CONTEXT_MOCK } from "./context/contextMock";
 import { Service } from "./service";
 
 class ServiceGallery extends Service<ICardGallery> {
-  getImages = async () => {
-    return this.withStore("images", async () => {
+  getImages = async (): Promise<ICardGallery[]> => {
+    return this.withStore<ICardGallery[]>("images", async () => {
       const gallery = await this.getAll();
 
       const promise = gallery.map((img) => {
-        return new Promise((resolve) => {
+        return new Promise<ICardGallery>((resolve) => {
           fetch(getImageUrl(img.img)).then((image) => {
-            image.blob().then((blob) =>
+            image.blob().then((blob) => {
               resolve({
                 ...img,
                 image: blob,
-              })
-            );
+              });
+            });
           });
         });
       });

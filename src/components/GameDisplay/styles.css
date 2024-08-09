@@ -1,10 +1,10 @@
-.game-controls {
+.game-display {
   display: flex;
   margin: 20px auto;
   align-items: center;
   width: 89%;
 }
 
-.game-controls button {
+.game-display button {
   padding: 10px;
 }

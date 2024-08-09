@@ -2,9 +2,10 @@ import { PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 import "./styles.css";
 
-const Modal = ({ children, onClose }: ModalProps) => {
+const Modal = ({ children, onClose, className = "" }: ModalProps) => {
+  className = className ? ` ${className}` : "";
   const modal = (
-    <div className="modal-wrapper">
+    <div className={`modal-wrapper${className}`}>
       <div className="modal">
         {onClose && (
           <button onClick={onClose} className="modal-close">
@@ -27,4 +28,5 @@ export default Modal;
 
 interface ModalProps extends PropsWithChildren {
   onClose?: () => void;
+  className?: string;
 }

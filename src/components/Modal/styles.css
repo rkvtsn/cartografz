@@ -6,6 +6,7 @@
   top: 0;
   left: 0;
   display: flex;
+  z-index: 9000;
 }
 
 @keyframes dropAnimation {
@@ -29,6 +30,7 @@
   flex-shrink: 1;
   transition: top 2s;
   animation: dropAnimation 1s;
+  z-index: 10000;
 }
 
 .modal-close {

@@ -10,7 +10,7 @@ import Goals from "../../../components/Goals";
 import Modal from "../../../components/Modal";
 import SeasonNotification from "../../../components/SeasonNotification";
 import HistoryDeck from "../../../components/HistoryDeck";
-import GameControls from "../../../components/GameControls";
+import GameDisplay from "../../../components/GameDisplay";
 import "./styles.css";
 
 const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
@@ -38,10 +38,6 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
   const historyDeck = useMemo(() => {
     return [...game.historyCards].reverse();
   }, [game.historyCards]);
-  const handleReset = useCallback(async () => {
-    serviceGame.clearStore();
-    setGame(await serviceGame.newGame());
-  }, [setGame]);
 
   const onCloseNewSeason = useCallback(async () => {
     setGame(await serviceGame.saveGame({ ...game, isNewSeason: false }));
@@ -53,7 +49,7 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
         <Orders orders={orders} />
         <Goals goals={game.goals} />
 
-        <GameControls
+        <GameDisplay
           currentCard={currentCard}
           currentSeason={currentSeason}
           isOver={!!game.isOver}
@@ -65,8 +61,6 @@ const GameBoard = ({ game, seasons, orders, setGame }: GameBoardProps) => {
       <div className="seasons-display">
         <Seasons seasons={seasons} />
         <Capacity season={game.season}>{game.capacity}</Capacity>
-        <button onClick={handleOnNewGame}>Новая игра</button>
-        <button onClick={handleReset}>RESET</button>
       </div>
       {game.isNewSeason && (
         <Modal onClose={onCloseNewSeason}>
