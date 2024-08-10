@@ -6,9 +6,13 @@
   gap: 10px;
 }
 
+.game-display .card {
+  width: 200px;
+}
+
 .game-display__btn-next-card {
-  height: 14em;
+  width: 14em;
   padding: 20px;
   display: block;
-  margin: 20px;
+  margin: 10px auto;
 }

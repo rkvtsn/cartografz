@@ -19,14 +19,14 @@ const GameDisplay = ({
       <div className="game-display">
         {<CardScaled card={currentSeason} />}
         {currentCard ? <CardScaled card={currentCard} /> : <CardClosed />}
-        <button
-          className="game-display__btn-next-card"
-          disabled={isOver}
-          onClick={onNewCard}
-        >
-          <IconNext width="24" height="24" />
-        </button>
       </div>
+      <button
+        className="game-display__btn-next-card"
+        disabled={isOver}
+        onClick={onNewCard}
+      >
+        <IconNext width="24" height="24" />
+      </button>
     </>
   );
 };
