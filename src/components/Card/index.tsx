@@ -14,7 +14,7 @@ const Card = <T extends ICard>({ card, className, onClick }: CardProps<T>) => {
 
   return (
     <div className={className}>
-      <img onClick={handleOnClick} className="img" src={imageSrc} />
+      <img z-index="2" onClick={handleOnClick} className="img" src={imageSrc} />
     </div>
   );
 };

@@ -3,8 +3,12 @@
   margin: 20px auto;
   align-items: center;
   width: 89%;
+  gap: 10px;
 }
 
-.game-display button {
-  padding: 10px;
+.game-display__btn-next-card {
+  height: 14em;
+  padding: 20px;
+  display: block;
+  margin: 20px;
 }

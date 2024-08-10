@@ -13,5 +13,5 @@ const CardClosed = ({ className }: CardClosedProps) => {
 export default CardClosed;
 
 interface CardClosedProps {
-  className: string;
+  className?: string;
 }

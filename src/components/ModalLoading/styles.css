@@ -1,16 +1,6 @@
-@keyframes animationFadeOut {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
 .modal-loading.modal-wrapper {
   background-color: #000;
   opacity: 1;
-  animation: 5s animationFadeOut;
 }
 
 @keyframes animationRotate {

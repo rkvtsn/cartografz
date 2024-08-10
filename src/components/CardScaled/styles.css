@@ -1,9 +1,12 @@
 .card-scaled {
+  position: relative;
+  z-index: 1;
   transform: rotate3d(0, 0, 0, 0);
   transition: 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
 .card-scaled:hover {
+  z-index: 1;
   transform: rotate3d(87, 11, 7, 33deg);
   cursor: pointer;
 }

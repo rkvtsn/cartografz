@@ -16,7 +16,7 @@ const CardScaled = ({ card, className }: CardScaledProps) => {
       <Card
         card={card}
         onClick={handleOnClick}
-        className={"card-scaled " + className}
+        className={`card-scaled${className ? ` ${className}` : ""}`}
       />
       {isActive && (
         <Modal>

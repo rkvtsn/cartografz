@@ -20,7 +20,6 @@ function App() {
 
   return (
     <>
-      <ModalLoading />
       <GameContext.Provider value={context}>
         <div className="app">
           <Header version={import.meta.env.APP_VERSION}>
@@ -30,6 +29,7 @@ function App() {
           <Game />
         </div>
       </GameContext.Provider>
+      <ModalLoading />
     </>
   );
 }

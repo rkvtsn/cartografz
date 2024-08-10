@@ -1,6 +1,6 @@
 import { usePreLoadImages } from "../../hooks/usePreLoadImages";
 import Modal from "../Modal";
-import IconLoading from "../Svg/IconLoading";
+import IconLoading from "../SvgIcon/IconLoading";
 import "./styles.css";
 
 const ModalLoading = () => {
